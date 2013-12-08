@@ -1,0 +1,29 @@
+# encoding: utf-8
+require 'akapen/version'
+require 'akapen_core'
+require "thor"
+
+module Akapen
+  #= Akapen CLI
+  class CLI < Thor
+    class_option :help, :type => :boolean, :aliases => '-h', :desc => 'help message.'
+    class_option :version, :type => :boolean, :desc => 'version'
+    default_task :grade
+
+    desc "grade", "check & report"
+    def grade
+      Akapen::Core.new.grade
+    end
+
+    desc "init", "generate templates [akapen_checker.rb, Akapentemplate, Akapenparameter]"
+    def init
+      Akapen::Core.new.init
+    end
+
+    desc "version", "version"
+    def version
+      p Akapen::VERSION
+    end
+  end
+end
+Akapen::CLI.start
