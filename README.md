@@ -163,7 +163,7 @@ Akapenparameter
 Akapentemplate
 ~~~
 
-* akapen_checker.rb
+akapen_checker.rb
 ~~~ruby
 # encoding: utf-8
 class AkapenChecker
@@ -184,7 +184,7 @@ class AkapenChecker
 end
 ~~~
 
-* Akapenparameter
+Akapenparameter
 ~~~ruby
 title "some title"
 summary "some summary"
@@ -204,7 +204,7 @@ question2: ng
 EOS
 ~~~
 
-* Akapentemplate
+Akapentemplate
 ~~~erb
 # write your result report template by erb format.
 
