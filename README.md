@@ -34,7 +34,7 @@ Or install it yourself as:
 
 ## Structure
 ### Image
-<img src="./doc_image/akapen structure.gif" />
+<img src="./doc_image/akapen structure.png" />
 
 ### akapen_checker.rb
 this is test check script.
