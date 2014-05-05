@@ -95,7 +95,7 @@ EOS
         raise AkapenTemplateNotExistsError.new("you must create #{AKAPEN_TEMPLATE_FILE}. create manually or execute 'akapen init' command")
       end
 
-      File.read("./#{AKAPEN_TEMPLATE_FILE}")
+      File.open("./#{AKAPEN_TEMPLATE_FILE}", "r:utf-8") { |f|f.read }
     end
 
     def read_parameters
@@ -104,7 +104,7 @@ EOS
         raise AkapenTemplateNotExistsError.new("you must create #{AKAPEN_PARAMETER_FILE}. create manually or execute 'akapen init' command")
       end
 
-      File.read("./#{AKAPEN_PARAMETER_FILE}")
+      File.open("./#{AKAPEN_PARAMETER_FILE}", "r:utf-8") { |f|f.read }
     end
 
     def get_test_results
