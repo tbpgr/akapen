@@ -1,34 +1,34 @@
 # encoding: utf-8
-require "spec_helper"
-require "akapen_dsl"
+require 'spec_helper'
+require 'akapen_dsl'
 
 describe Akapen::Dsl do
   context :method_missing do
     cases = [
       {
         case_no: 1,
-        case_title: "single question",
-        q_method_names: ["q1_ok", "q1_ng"],
-        args: ["ok message", "ng message"],
-        expected_nos: ["1"],
-        expected_oks: ["ok message"],
-        expected_ngs: ["ng message"],
+        case_title: 'single question',
+        q_method_names: %w(q1_ok q1_ng),
+        args: ['ok message', 'ng message'],
+        expected_nos: ['1'],
+        expected_oks: ['ok message'],
+        expected_ngs: ['ng message'],
       },
       {
         case_no: 2,
-        case_title: "multi question",
-        q_method_names: ["q1_ok", "q2_ok", "q1_ng", "q2_ng"],
-        args: ["ok message1", "ok message2", "ng message1", "ng message2"],
-        expected_nos: ["1", "2"],
-        expected_oks: ["ok message1", "ok message2"],
-        expected_ngs: ["ng message1", "ng message2"],
+        case_title: 'multi question',
+        q_method_names: %w(q1_ok q2_ok q1_ng q2_ng),
+        args: ['ok message1', 'ok message2', 'ng message1', 'ng message2'],
+        expected_nos: %w(1 2),
+        expected_oks: ['ok message1', 'ok message2'],
+        expected_ngs: ['ng message1', 'ng message2'],
       },
       {
         case_no: 3,
-        case_title: "other attributes",
-        other_method_names: ["title", "summary"],
-        args: ["this is title", "this is summary"],
-        expected_others: ["this is title", "this is summary"],
+        case_title: 'other attributes',
+        other_method_names: %w(title summary),
+        args: ['this is title', 'this is summary'],
+        expected_others: ['this is title', 'this is summary'],
       }
     ]
 
@@ -69,7 +69,6 @@ describe Akapen::Dsl do
 
       def case_before(c)
         # implement each case before
-
       end
 
       def case_after(c)

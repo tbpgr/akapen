@@ -1,6 +1,6 @@
 # encoding: utf-8
-require "spec_helper"
-require "akapen_core"
+require 'spec_helper'
+require 'akapen_core'
 
 describe Akapen::Core do
 
@@ -8,7 +8,7 @@ describe Akapen::Core do
     cases = [
       {
         case_no: 1,
-        case_title: "init",
+        case_title: 'init',
         expected_template: Akapen::Core::AKAPEN_TEMPLATE_TEMPLATE,
         expected_parameter: Akapen::Core::AKAPEN_PARAMETER_TEMPLATE,
         expected_checker: Akapen::Core::AKAPEN_CHECKER_TEMPLATE
@@ -27,9 +27,9 @@ describe Akapen::Core do
           akapen_core.init
 
           # then
-          actual_template = File.open("#{Akapen::Core::AKAPEN_TEMPLATE_FILE}") {|f|f.read}
-          actual_parameter = File.open("#{Akapen::Core::AKAPEN_PARAMETER_FILE}") {|f|f.read}
-          actual_checker = File.open("#{Akapen::Core::AKAPEN_CHECKER_FILE}") {|f|f.read}
+          actual_template = File.open("#{Akapen::Core::AKAPEN_TEMPLATE_FILE}") { |f|f.read }
+          actual_parameter = File.open("#{Akapen::Core::AKAPEN_PARAMETER_FILE}") { |f|f.read }
+          actual_checker = File.open("#{Akapen::Core::AKAPEN_CHECKER_FILE}") { |f|f.read }
           expect(actual_template).to eq(c[:expected_template])
           expect(actual_parameter).to eq(c[:expected_parameter])
           expect(actual_checker).to eq(c[:expected_checker])
@@ -41,20 +41,19 @@ describe Akapen::Core do
 
       def case_before(c)
         # implement each case before
-
       end
 
       def case_after(c)
         # implement each case after
-        File.delete(Akapen::Core::AKAPEN_TEMPLATE_FILE) if File.exists? Akapen::Core::AKAPEN_TEMPLATE_FILE
-        File.delete(Akapen::Core::AKAPEN_PARAMETER_FILE) if File.exists? Akapen::Core::AKAPEN_PARAMETER_FILE
-        File.delete(Akapen::Core::AKAPEN_CHECKER_FILE) if File.exists? Akapen::Core::AKAPEN_CHECKER_FILE
+        File.delete(Akapen::Core::AKAPEN_TEMPLATE_FILE) if File.exist? Akapen::Core::AKAPEN_TEMPLATE_FILE
+        File.delete(Akapen::Core::AKAPEN_PARAMETER_FILE) if File.exist? Akapen::Core::AKAPEN_PARAMETER_FILE
+        File.delete(Akapen::Core::AKAPEN_CHECKER_FILE) if File.exist? Akapen::Core::AKAPEN_CHECKER_FILE
       end
     end
   end
 
   context :grade do
-    AKAPEN_CHECKER_CASE1 =<<-EOS
+    AKAPEN_CHECKER_CASE1 = <<-EOS
 class AkapenChecker
   # implement your check logic.(return true / false)
   def q1
@@ -73,7 +72,7 @@ class AkapenChecker
 end
     EOS
 
-    AKAPEN_TEMPLATE_CASE1 =<<-EOS
+    AKAPEN_TEMPLATE_CASE1 = <<-EOS
 Title   : <%=title%>
 Summary : <%=summary%>
 
@@ -83,7 +82,7 @@ Your Answers
 Thank you for challenge!
     EOS
 
-    AKAPEN_PARAMETER_CASE1 =<<-END
+    AKAPEN_PARAMETER_CASE1 = <<-END
 title "Some Title"
 summary "Some Summary"
 
@@ -102,7 +101,7 @@ question2: ng
 EOS
     END
 
-    AKAPEN_RESULT_CASE1 =<<-EOS
+    AKAPEN_RESULT_CASE1 = <<-EOS
 Title   : Some Title
 Summary : Some Summary
 
@@ -116,8 +115,8 @@ Thank you for challenge!
     cases = [
       {
         case_no: 1,
-        case_title: "case_title",
-        id: "some_id",
+        case_title: 'case_title',
+        id: 'some_id',
         akapen_checker: AKAPEN_CHECKER_CASE1,
         akapen_template: AKAPEN_TEMPLATE_CASE1,
         akapen_parameter: AKAPEN_PARAMETER_CASE1,
@@ -153,17 +152,17 @@ Thank you for challenge!
 
       def case_before(c)
         # implement each case before
-        File.open("./#{Akapen::Core::AKAPEN_CHECKER_FILE}", "w") {|f|f.puts c[:akapen_checker]}
-        File.open("./#{Akapen::Core::AKAPEN_TEMPLATE_FILE}", "w") {|f|f.puts c[:akapen_template]}
-        File.open("./#{Akapen::Core::AKAPEN_PARAMETER_FILE}", "w") {|f|f.puts c[:akapen_parameter]}
+        File.open("./#{Akapen::Core::AKAPEN_CHECKER_FILE}", 'w') { |f|f.puts c[:akapen_checker] }
+        File.open("./#{Akapen::Core::AKAPEN_TEMPLATE_FILE}", 'w') { |f|f.puts c[:akapen_template] }
+        File.open("./#{Akapen::Core::AKAPEN_PARAMETER_FILE}", 'w') { |f|f.puts c[:akapen_parameter] }
       end
 
       def case_after(c)
         # implement each case after
-        File.delete(Akapen::Core::AKAPEN_TEMPLATE_FILE) if File.exists? Akapen::Core::AKAPEN_TEMPLATE_FILE
-        File.delete(Akapen::Core::AKAPEN_PARAMETER_FILE) if File.exists? Akapen::Core::AKAPEN_PARAMETER_FILE
-        File.delete(Akapen::Core::AKAPEN_CHECKER_FILE) if File.exists? Akapen::Core::AKAPEN_CHECKER_FILE
-        File.delete(Akapen::Core::AKAPEN_RESULT_FILE.gsub('$id$', c[:id])) if File.exists? Akapen::Core::AKAPEN_RESULT_FILE.gsub('$id$', c[:id])
+        File.delete(Akapen::Core::AKAPEN_TEMPLATE_FILE) if File.exist? Akapen::Core::AKAPEN_TEMPLATE_FILE
+        File.delete(Akapen::Core::AKAPEN_PARAMETER_FILE) if File.exist? Akapen::Core::AKAPEN_PARAMETER_FILE
+        File.delete(Akapen::Core::AKAPEN_CHECKER_FILE) if File.exist? Akapen::Core::AKAPEN_CHECKER_FILE
+        File.delete(Akapen::Core::AKAPEN_RESULT_FILE.gsub('$id$', c[:id])) if File.exist? Akapen::Core::AKAPEN_RESULT_FILE.gsub('$id$', c[:id])
       end
     end
   end

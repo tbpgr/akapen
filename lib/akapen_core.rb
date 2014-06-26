@@ -1,16 +1,16 @@
-require "akapen/version"
-require "akapen_dsl"
-require "erb"
+require 'akapen/version'
+require 'akapen_dsl'
+require 'erb'
 
 module Akapen
-  #= Akapen::Core
+  # = Akapen::Core
   class Core
-    #== result file name
-    AKAPEN_RESULT_FILE = "akapen_result_$id$.txt"
-    #== check script template file name
-    AKAPEN_CHECKER_FILE = "akapen_checker.rb"
-    #== check script template
-    AKAPEN_CHECKER_TEMPLATE =<<-EOS
+    # == result file name
+    AKAPEN_RESULT_FILE = 'akapen_result_$id$.txt'
+    # == check script template file name
+    AKAPEN_CHECKER_FILE = 'akapen_checker.rb'
+    # == check script template
+    AKAPEN_CHECKER_TEMPLATE = <<-EOS
 # encoding: utf-8
 class AkapenChecker
   # implement your check logic.(return true / false)
@@ -30,10 +30,10 @@ class AkapenChecker
 end
     EOS
 
-    #== report template file name
-    AKAPEN_TEMPLATE_FILE = "Akapentemplate"
-    #== report template template
-    AKAPEN_TEMPLATE_TEMPLATE =<<-EOS
+    # == report template file name
+    AKAPEN_TEMPLATE_FILE = 'Akapentemplate'
+    # == report template template
+    AKAPEN_TEMPLATE_TEMPLATE = <<-EOS
 # write your result report template by erb format.
 
 # if you want to use each questions response,
@@ -45,10 +45,10 @@ end
 # summary: <%=summary%>
     EOS
 
-    #== report parameter template file name
-    AKAPEN_PARAMETER_FILE = "Akapenparameter"
-    #== report parameter template
-    AKAPEN_PARAMETER_TEMPLATE =<<-END
+    # == report parameter template file name
+    AKAPEN_PARAMETER_FILE = 'Akapenparameter'
+    # == report parameter template
+    AKAPEN_PARAMETER_TEMPLATE = <<-END
 title "some title"
 summary "some summary"
 
@@ -69,42 +69,42 @@ EOS
 
     # init Akapen::Core
     def init
-      File.open("./#{AKAPEN_CHECKER_FILE}", "w") {|f|f.puts AKAPEN_CHECKER_TEMPLATE}
-      File.open("./#{AKAPEN_TEMPLATE_FILE}", "w") {|f|f.puts AKAPEN_TEMPLATE_TEMPLATE}
-      File.open("./#{AKAPEN_PARAMETER_FILE}", "w") {|f|f.puts AKAPEN_PARAMETER_TEMPLATE}
+      File.open("./#{AKAPEN_CHECKER_FILE}", 'w') { |f|f.puts AKAPEN_CHECKER_TEMPLATE }
+      File.open("./#{AKAPEN_TEMPLATE_FILE}", 'w') { |f|f.puts AKAPEN_TEMPLATE_TEMPLATE }
+      File.open("./#{AKAPEN_PARAMETER_FILE}", 'w') { |f|f.puts AKAPEN_PARAMETER_TEMPLATE }
     end
 
     # check test or report, and generate result report from Akapentemplate & Akapenparameter.
     def grade
-      require "./akapen_checker"
+      require './akapen_checker'
       template = read_template
       parameters = read_parameters
       dsl = Dsl.new
       dsl.instance_eval parameters
-      
+
       test_results = get_test_results
       id = get_id
       q_results = get_q_results(dsl, test_results)
       result = get_report(dsl, q_results, template)
-      File.open(get_output_filename(id), "w") {|f|f.puts result}
+      File.open(get_output_filename(id), 'w') { |f|f.puts result }
     end
 
     private
     def read_template
-      unless File.exists? "./#{AKAPEN_TEMPLATE_FILE}"
-        raise AkapenTemplateNotExistsError.new("you must create #{AKAPEN_TEMPLATE_FILE}. create manually or execute 'akapen init' command")
+      unless File.exist? "./#{AKAPEN_TEMPLATE_FILE}"
+        fail AkapenTemplateNotExistsError.new("you must create #{AKAPEN_TEMPLATE_FILE}. create manually or execute 'akapen init' command")
       end
 
-      File.open("./#{AKAPEN_TEMPLATE_FILE}", "r:utf-8") { |f|f.read }
+      File.open("./#{AKAPEN_TEMPLATE_FILE}", 'r:utf-8') { |f|f.read }
     end
 
     def read_parameters
       AKAPEN_PARAMETER_FILE
-      unless File.exists? "./#{AKAPEN_PARAMETER_FILE}"
-        raise AkapenTemplateNotExistsError.new("you must create #{AKAPEN_PARAMETER_FILE}. create manually or execute 'akapen init' command")
+      unless File.exist? "./#{AKAPEN_PARAMETER_FILE}"
+        fail AkapenTemplateNotExistsError.new("you must create #{AKAPEN_PARAMETER_FILE}. create manually or execute 'akapen init' command")
       end
 
-      File.open("./#{AKAPEN_PARAMETER_FILE}", "r:utf-8") { |f|f.read }
+      File.open("./#{AKAPEN_PARAMETER_FILE}", 'r:utf-8') { |f|f.read }
     end
 
     def get_test_results
@@ -125,7 +125,7 @@ EOS
       ret = []
 
       test_results.each_with_index do |result, index|
-        if (result)
+        if result
           ret << questions[index].ok
         else
           ret << questions[index].ng
@@ -139,10 +139,10 @@ EOS
       code = []
       dynamic_filed_names.each do |field_name|
         method_value = dsl.method("_#{field_name}").call
-        code << "#{field_name.to_s} = '#{method_value}'"
+        code << "#{field_name} = '#{method_value}'"
       end
-      code << "erb = ERB.new(template)"
-      code << "erb.result(binding)"
+      code << 'erb = ERB.new(template)'
+      code << 'erb.result(binding)'
       eval code.join("\n"), binding
     end
 
@@ -151,6 +151,6 @@ EOS
     end
   end
 
-  class AkapenTemplateNotExistsError < StandardError;end
-  class AkapenParameterNotExistsError < StandardError;end
+  class AkapenTemplateNotExistsError < StandardError; end
+  class AkapenParameterNotExistsError < StandardError; end
 end
